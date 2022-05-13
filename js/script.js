@@ -55,5 +55,39 @@ const makeGuess = function (guess) {
     } else {
         guessedLetters.push(guess);
         console.log(guessedLetters);
+        showGuessedLetters();
+        wordInProgressUpdate(guessedLetters);
     }
-}
+};
+
+const showGuessedLetters = function () {
+    guessedLettersList.innerHTML = "";
+    for (const letter of guessedLetters) {
+        const li = document.createElement("li");
+        li.innerText = letter;
+        guessedLettersList.append(li);
+    }
+};
+
+const wordInProgressUpdate = function (guessedLetters){
+    const wordUpper = word.toUpperCase();
+    const wordArray = wordUpper.split("");
+    const showWord = [];
+    for (const letter of wordArray) {
+        if (guessedLetters.includes(letter)) {
+            showWord.push(letter.toUpperCase());
+        } else {
+            showWord.push("●");
+        }
+    }
+    wordInProgress.innerText = showWord.join("");
+    checkIfWon();
+};
+
+const checkIfWon = function () {
+    if (word.toUpperCase() === wordInProgress.innerText) {
+        message.classList.add("win");
+        message.innerHTML = `<p class="highlight">You guessed the correct word! Congrats!</p>`;
+    }
+};
+
