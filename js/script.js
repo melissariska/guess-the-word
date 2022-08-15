@@ -20,32 +20,36 @@ const getWord = async function () {
     symbol(word);
 }
 
+// Start game 
+getWord();
+
+// Display symbols as placeholders for letters of the word
 const symbol = function (word) {
     const symbolLetters = [];
     for (const letter of word) {
-        console.log(letter);
+        //console.log(letter);
         symbolLetters.push("●");
     }
     wordInProgress.innerText = symbolLetters.join("");
 }
 
-getWord();
-
 guessButton.addEventListener("click", function (e) {
     e.preventDefault();
+    // Empty message
     message.innerText = "";
-
+    // What was entered in the input
     const guess = letterInput.value;
-    const goodGuess = validInput(guess);
+    // Make sure it is a single letter
+    const goodGuess = validateInput(guess);
 
     if (goodGuess) {
         makeGuess(guess);
     }
 
     letterInput.value = "";
-})
+});
 
-const validInput = function (input) {
+const validateInput = function (input) {
     const acceptedLetter = /[a-zA-Z]/;
     if (input.length === 0) {
         message.innerText = "Please enter a letter";
@@ -65,8 +69,8 @@ const makeGuess = function (guess) {
     } else {
         guessedLetters.push(guess);
         console.log(guessedLetters);
+        updateGuessesRemaining(guess);
         showGuessedLetters();
-        guessesRemaining(guess);
         wordInProgressUpdate(guessedLetters);
     }
 };
@@ -95,7 +99,7 @@ const wordInProgressUpdate = function (guessedLetters){
     checkIfWon();
 };
 
-const guessesRemaining = function (guess) {
+const updateGuessesRemaining = function (guess) {
     const upperWord = word.toUpperCase();
     if (!upperWord.includes(guess)) {
        message.innerText = `Sorry, the word doesn't contain ${guess}.`;
@@ -103,6 +107,7 @@ const guessesRemaining = function (guess) {
     } else {
         message.innerText = `Good guess! The word contains the letter ${guess}.`;
     };
+
     if (remainingGuesses === 0) {
         message.innerText = `Game over! The word is ${word}.`;
         startOver();
@@ -131,11 +136,12 @@ const startOver = function () {
 
 playAgainButton.addEventListener("click", function () {
     message.classList.remove("win");
-    message.innerText = "";
     guessedLetters = [];
     remainingGuesses = 8;
     remainingGuessesSpan.innerText = `${remainingGuesses} guesses`;
-
+    guessedLetters.innerHTML = "";
+    message.innerText = "";
+    
     getWord();
 
     guessButton.classList.remove("hide");
