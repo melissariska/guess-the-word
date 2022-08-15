@@ -84,7 +84,7 @@ const showGuessedLetters = function () {
     }
 };
 
-const wordInProgressUpdate = function (guessedLetters){
+const wordInProgressUpdate = function (guessedLetters) {
     const wordUpper = word.toUpperCase();
     const wordArray = wordUpper.split("");
     const showWord = [];
@@ -106,7 +106,7 @@ const updateGuessesRemaining = function (guess) {
        remainingGuesses -= 1;
     } else {
         message.innerText = `Good guess! The word contains the letter ${guess}.`;
-    };
+    }
 
     if (remainingGuesses === 0) {
         message.innerText = `Game over! The word is ${word}.`;
@@ -139,9 +139,9 @@ playAgainButton.addEventListener("click", function () {
     guessedLetters = [];
     remainingGuesses = 8;
     remainingGuessesSpan.innerText = `${remainingGuesses} guesses`;
-    guessedLetters.innerHTML = "";
+    guessedLettersList.innerHTML = "";
     message.innerText = "";
-    
+
     getWord();
 
     guessButton.classList.remove("hide");
